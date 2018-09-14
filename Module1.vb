@@ -1,10 +1,50 @@
 Module Module1
+    Function is_integer(inp As String)
+        Dim permissable_characters As String = "0123456789"
+
+        'If an empty string is passed in
+        If inp = "" Then
+            Return False
+        End If
+
+        For i = 0 To Len(inp) - 1
+            If Not permissable_characters.Contains(inp(i)) Then
+                Return False
+            End If
+        Next
+        Return True
+    End Function
+
+    Function get_integer_input()
+        Dim out As String = "?"
+        While Not is_integer(out)
+            Console.Write("...")
+            out = Console.ReadLine()
+        End While
+        Return Convert.ToInt64(out)
+    End Function
+
+    Function prompt(inp As String)
+        Console.WriteLine(inp)
+        Return get_integer_input()
+    End Function
+
     Sub Main()
-        Dim inp As String
-        Console.Write("Enter the marks you got: ")
-        Dim marks As Integer = Convert.ToInt32(Console.ReadLine())
-        Console.Write("Enter how many marks there were: ")
-        Dim maxMarks As Integer = Convert.ToInt32(Console.ReadLine())
+        'Loop until a valid pair of integers is inputted
+        Dim looping As Boolean = True
+        Dim maxMarks As Integer
+        Dim marks As Integer
+        While looping
+            marks = prompt("Enter the marks you got:")
+            maxMarks = prompt("Enter how many marks there were in total: ")
+            If maxMarks > marks Then
+                looping = False
+            End If
+        End While
+        Console.WriteLine()
+
+        'Finding the percentage
+
         Dim perc As Double = (marks / maxMarks) * 100
 
         'Removes all decimal places past the second
@@ -15,24 +55,25 @@ Module Module1
             perc = Convert.ToInt16(perc)
         End If
 
-        'Flag prevents multiple grades from printing
-        Dim flag As Boolean = False
+        'Flag to prevent multiple grades from printing
+        Dim alreadyGraded As Boolean = False
 
         For i As Integer = 0 To 4
             '>80 = A, down 10% per grade
-            If perc > (80 - (i * 10)) And Not flag Then
-                Console.WriteLine("Your result is a " & Chr(65 + i) & ". " & "Percentage is " & perc & "%")
-                flag = True
+            If perc > (80 - (i * 10)) And Not alreadyGraded Then
+                Console.WriteLine("Your percentage is " & perc & " which is a" & {" ", "n "}(Convert.ToInt16(i = 0 Or i = 4)) & Chr(65 + i) & "!")
+                alreadyGraded = True
             End If
         Next
 
         'If they didn't qualify for a grade.
-        If Not flag Then
+        If Not alreadyGraded Then
             Console.WriteLine("Your percentage is " & perc & "%")
             Console.WriteLine("You failed.")
         End If
 
-        Console.Write("...")
+        Console.WriteLine()
+        Console.Write("press <enter> to exit...")
         Console.ReadLine()
     End Sub
 End Module
