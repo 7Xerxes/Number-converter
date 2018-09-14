@@ -1,13 +1,19 @@
-Module Module1    
+Module Module1
     Sub Main()
         Dim inp As String
         Console.Write("Enter the marks you got: ")
-        Dim marks As Integer = Convert.ToInt32(console.ReadLine())
+        Dim marks As Integer = Convert.ToInt32(Console.ReadLine())
         Console.Write("Enter how many marks there were: ")
-        Dim maxMarks As Integer = Convert.ToInt32(console.ReadLine())
-        Dim perc As Double = (marks/maxMarks)*100
+        Dim maxMarks As Integer = Convert.ToInt32(Console.ReadLine())
+        Dim perc As Double = (marks / maxMarks) * 100
 
-        perc = perc Mod 0.01
+        'Removes all decimal places past the second
+        perc = perc - (perc Mod 0.01)
+
+        'If perc is an integer, convert it to one
+        If perc = perc Mod 1 And perc >= 1 Then
+            perc = Convert.ToInt16(perc)
+        End If
 
         'Flag prevents multiple grades from printing
         Dim flag As Boolean = False
