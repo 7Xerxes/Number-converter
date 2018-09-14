@@ -1,14 +1,17 @@
 Module Module1
     Function is_integer(inp As String)
+        'The only characters a valid integer input should include
         Dim permissable_characters As String = "0123456789"
 
-        'If an empty string is passed in
+        'If an empty string is passed in, it's not an integer
         If inp = "" Then
             Return False
         End If
 
-        For i = 0 To Len(inp) - 1
-            If Not permissable_characters.Contains(inp(i)) Then
+        'Checks each character in inp
+        For Each letter In inp
+            'If the character isn't in the charset
+            If Not permissable_characters.Contains(letter) Then
                 Return False
             End If
         Next
@@ -16,7 +19,9 @@ Module Module1
     End Function
 
     Function get_integer_input()
-        Dim out As String = "?"
+        Console.Write("...")
+        Dim out As String = Console.ReadLine()
+        'Continually asks until the variable is a valid integer
         While Not is_integer(out)
             Console.Write("...")
             out = Console.ReadLine()
@@ -24,6 +29,7 @@ Module Module1
         Return Convert.ToInt64(out)
     End Function
 
+    'Simple prompt, like Python's input("Prompt") function
     Function prompt(inp As String)
         Console.WriteLine(inp)
         Return get_integer_input()
